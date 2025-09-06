@@ -50,6 +50,9 @@
     <h1>進学先登録</h1>
 
     <form id="univForm" class="h-adr">
+      <!-- ★必須 -->
+      <span class="p-country-name" style="display:none;">Japan</span>
+
       <!-- 大学名 -->
       <p class="section-title">1. 進学先の大学名をご入力ください。</p>
       <input type="text" class="form-control" id="university" placeholder="早稲田大学" required>
@@ -68,7 +71,16 @@
 
       <!-- 自動入力される住所 -->
       <div class="mt-2">
-        <input type="text" class="form-control p-region p-locality p-street-address p-extended-address" id="address" placeholder="都道府県 市区町村" required>
+        <input type="text" class="form-control p-region" placeholder="都道府県" required>
+      </div>
+      <div class="mt-2">
+        <input type="text" class="form-control p-locality" placeholder="市区町村" required>
+      </div>
+      <div class="mt-2">
+        <input type="text" class="form-control p-street-address" placeholder="町域" required>
+      </div>
+      <div class="mt-2">
+        <input type="text" class="form-control p-extended-address" placeholder="丁目・番地・建物" required>
       </div>
 
       <!-- ボタン -->
@@ -85,8 +97,8 @@
 
   <script>
     $(function () {
-      // ★ あなたの LIFF ID を設定してください
-      const liffId = "2008067918-bqlgR9gz";
+      // ★ あなたの LIFF ID に置き換え
+      const liffId = "YOUR_LIFF_ID_HERE";
 
       // LIFF初期化
       liff.init({ liffId }).catch(err => {
@@ -99,7 +111,11 @@
 
         const university = $('#university').val();
         const faculty = $('#faculty').val();
-        const address = $('#address').val();
+        const address =
+          $('.p-region').val() +
+          $('.p-locality').val() +
+          $('.p-street-address').val() +
+          $('.p-extended-address').val();
 
         const msg = `＜進学先登録＞
 大学: ${university}
