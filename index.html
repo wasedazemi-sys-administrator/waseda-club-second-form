@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>進学先登録</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <style>
+    :root {
+      --main-blue: #005bac;
+      --light-blue: #e6f0fa;
+    }
+    body {
+      background-color: var(--light-blue);
+      font-family: "Segoe UI", "Hiragino Sans", "メイリオ", sans-serif;
+    }
+    .form-container {
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+    h1 {
+      color: var(--main-blue);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .section-title {
+      margin-top: 1.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+    .btn-primary {
+      background-color: var(--main-blue);
+      border-color: var(--main-blue);
+      font-weight: bold;
+    }
+    .btn-primary:hover {
+      background-color: #004080;
+      border-color: #004080;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <h1>進学先登録</h1>
+
+    <form id="univForm" class="h-adr">
+      <!-- 大学名 -->
+      <p class="section-title">1. 進学先の大学名をご入力ください。</p>
+      <input type="text" class="form-control" id="university" placeholder="早稲田大学" required>
+
+      <!-- 学部名 -->
+      <p class="section-title">2. 学部名をご入力ください。</p>
+      <input type="text" class="form-control" id="faculty" placeholder="教育学部" required>
+
+      <!-- 郵便番号 -->
+      <p class="section-title">3. 現住所をご入力ください。</p>
+      <div class="form-row">
+        <div class="col-md-4">
+          <input type="text" class="form-control p-postal-code" size="8" maxlength="8" placeholder="例: 123-4567" required>
+        </div>
+      </div>
+
+      <!-- 自動入力される住所 -->
+      <div class="mt-2">
+        <input type="text" class="form-control p-region p-locality p-street-address p-extended-address" id="address" placeholder="都道府県 市区町村" required>
+      </div>
+
+      <!-- ボタン -->
+      <button type="submit" class="btn btn-primary btn-block mt-4">登録</button>
+    </form>
+  </div>
+
+  <!-- JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- 郵便番号 → 住所変換ライブラリ -->
+  <script src="https://yubinbango.github.io/yubinbango/yubinbango.js"></script>
+  <!-- LIFF SDK -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <script>
+    $(function () {
+      // ★ あなたの LIFF ID を設定してください
+      const liffId = "YOUR_LIFF_ID_HERE";
+
+      // LIFF初期化
+      liff.init({ liffId }).catch(err => {
+        alert("LIFF初期化失敗: " + err);
+      });
+
+      // フォーム送信処理
+      $('#univForm').submit(async function (e) {
+        e.preventDefault();
+
+        const university = $('#university').val();
+        const faculty = $('#faculty').val();
+        const address = $('#address').val();
+
+        const msg = `＜進学先登録＞
+大学: ${university}
+学部: ${faculty}
+住所: ${address}`;
+
+        try {
+          await liff.sendMessages([{ type: 'text', text: msg }]);
+          liff.closeWindow();
+        } catch (error) {
+          alert("送信失敗: " + error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
