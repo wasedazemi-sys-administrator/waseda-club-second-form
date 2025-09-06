@@ -111,15 +111,17 @@
 
         const university = $('#university').val();
         const faculty = $('#faculty').val();
+        const postal = $('#postal').val();
         const address =
           $('.p-region').val() +
           $('.p-locality').val() +
           $('.p-street-address').val() +
           $('.p-extended-address').val();
 
-        const msg = `＜進学先登録＞
+        const msg = `＜ワセダクラブ2次登録情報＞
 大学: ${university}
 学部: ${faculty}
+郵便番号: ${postal}
 住所: ${address}`;
 
         try {
