@@ -47,7 +47,7 @@
 
 <body>
   <div class="form-container">
-    <h1>ワセダクラブ２次登録フォーム</h1>
+    <h1>ワセダクラブ</br>２次登録フォーム</h1>
 
     <form id="univForm" class="h-adr">
       <!-- ★必須 -->
@@ -98,6 +98,11 @@
         <input type="text" class="form-control p-extended-address" placeholder="丁目・番地・建物" required>
       </div>
 
+      <!-- 自由記述欄 -->
+        <p class="section-title">5. お問い合わせ内容をご自由にご記入ください。（任意）</p>
+        <textarea class="form-control" id="freeText" rows="4" placeholder="具体的なお問い合わせ内容などがあればご記入ください"></textarea>
+
+
       <!-- ボタン -->
       <button type="submit" class="btn btn-primary btn-block mt-4">登録</button>
     </form>
@@ -136,13 +141,15 @@
           $('.p-locality').val() +
           $('.p-street-address').val() +
           $('.p-extended-address').val();
+        const freeText = $('#freeText').val();
         
         const msg = `＜ワセダクラブ2次登録情報＞
 ${employmentType.join(" / ")}
 ${university}
 ${faculty}
 ${postal}
-${address}`;
+${address}
+${freeText || "（なし）"}`;
 
 
         try {
